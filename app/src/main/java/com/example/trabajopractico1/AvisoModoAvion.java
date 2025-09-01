@@ -36,10 +36,12 @@ public class AvisoModoAvion extends BroadcastReceiver {
             Intent dial = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:2664553747"))
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            // Notificación (flujo compatible con background)
-            NotificationUtils.ensureChannel(context);
-            NotificationUtils.notifyOpenDialer(context, dial, 1001);
-            Log.d(TAG, "notifyOpenDialer() invocado");
+            try {
+                context.startActivity(dial);
+                Log.d(TAG, "Marcador abierto");
+            } catch (Exception e) {
+                Log.e(TAG, "No se pudo abrir el marcador", e);
+            }
         } else {
             Toast.makeText(context, "Modo Avión DESACTIVADO (Manifest)", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "Modo avión desactivado");
